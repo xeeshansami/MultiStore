@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Quicker</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_account">Account</string>
+    <string name="image">Image</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="facebook_app_id">2604843702963186</string>
+    <string name="fb_login_protocol_scheme">fb2604843702963186</string>
+
+    <string name="server_client_id">266911894235-ken7di50hu33ggobtadq7tsb2s8q3f4n.apps.googleusercontent.com</string>
+</resources>
