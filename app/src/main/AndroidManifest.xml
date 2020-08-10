@@ -3,7 +3,10 @@
     xmlns:dist="http://schemas.android.com/apk/distribution"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.activeitzone.activeecommercecms">
-
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.TYPE_SYSTEM_ALERT" />
@@ -32,6 +35,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Presentation.ui.activities.impl.ProductReviewActivity" />
+        <activity android:name=".Utils.ScannerActivity" />
         <activity android:name=".Presentation.ui.activities.impl.AccountInfoActivity" />
         <activity android:name=".Presentation.ui.activities.impl.StripePaymentActivity" />
         <activity android:name=".Presentation.ui.activities.impl.SellerShopActivity" />

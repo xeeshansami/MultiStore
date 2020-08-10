@@ -1,6 +1,9 @@
 package com.activeitzone.activeecommercecms.Presentation.ui.activities.impl;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -23,17 +26,25 @@ import com.activeitzone.activeecommercecms.Presentation.ui.fragments.impl.Produc
 import com.activeitzone.activeecommercecms.R;
 import com.activeitzone.activeecommercecms.Threading.MainThreadImpl;
 import com.activeitzone.activeecommercecms.Utils.CustomToast;
+import com.activeitzone.activeecommercecms.Utils.ScannerActivity;
 import com.activeitzone.activeecommercecms.Utils.UserPrefs;
 import com.activeitzone.activeecommercecms.domain.executor.impl.ThreadExecutor;
 import com.activeitzone.activeecommercecms.domain.interactors.AppSettingsInteractor;
 import com.activeitzone.activeecommercecms.domain.interactors.impl.AppSettingsInteractorImpl;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.nabinbhandari.android.permissions.PermissionHandler;
+import com.nabinbhandari.android.permissions.Permissions;
+
+import java.util.ArrayList;
 
 import q.rorbin.badgeview.QBadgeView;
 
 public class MainActivity extends AppCompatActivity implements AppSettingsInteractor.CallBack {
-
+    String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA,
+            Manifest.permission.INTERNET};
     final Fragment homeFragment = new HomeFragment();
     final Fragment categoriesFragment = new CategoriesFragment();
     private Fragment cartFragment = new CartFragment();
@@ -42,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements AppSettingsIntera
     final FragmentManager fm = getSupportFragmentManager();
     private Fragment active = homeFragment;
     public static BottomNavigationView navView;
-    private ImageButton cart, search;
+    private ImageButton cart, search,action_qr_scanner;
     private TextView title;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -75,7 +86,23 @@ public class MainActivity extends AppCompatActivity implements AppSettingsIntera
             return true;
         }
     };
+    private void checkForPermissions() {
+        Permissions.check(this/*context*/, permissions, null/*rationale*/, null/*options*/, new PermissionHandler() {
+            @Override
+            public void onGranted() {
+                // do your task.
+                Intent  intent = new Intent(getApplication(), ScannerActivity.class);
+                startActivity(intent);
+            }
 
+            @Override
+            public void onDenied(Context context, ArrayList<String> deniedPermissions) {
+                CustomToast.showToast((Activity) context, "Permission denied", R.color.colorSuccess);
+                onBackPressed();
+            }
+        });
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements AppSettingsIntera
 
         View view =getSupportActionBar().getCustomView();
 
+        action_qr_scanner = view.findViewById(R.id.action_qr_scanner);
         cart = view.findViewById(R.id.action_bar_cart);
         search = view.findViewById(R.id.action_bar_search);
         title = view.findViewById(R.id.nav_title);
@@ -100,6 +128,12 @@ public class MainActivity extends AppCompatActivity implements AppSettingsIntera
             public void onClick(View v) {
                 navView.setSelectedItemId(R.id.navigation_cart);
                 loadFragment(cartFragment);
+            }
+        });
+        action_qr_scanner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkForPermissions();
             }
         });
 
