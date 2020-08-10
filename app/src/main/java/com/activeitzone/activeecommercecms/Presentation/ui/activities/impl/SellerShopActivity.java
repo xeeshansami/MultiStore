@@ -41,34 +41,38 @@ public class SellerShopActivity extends BaseActivity implements SellerShopView, 
     private SliderLayout sliderLayout;
     private ShopPresenter shopPresenter;
     private ProgressBar progress_bar;
-    private TextView featured,top_selling, new_arrival,shopAddressTxtView;
+    private TextView featured, top_selling, new_arrival, shopAddressTxtView;
     private NestedScrollView shop_details;
     private Button btn_seller_products;
     private ImageView shopLogoImageView;
     RelativeLayout shopDetailsLayoutID;
     Shops shop;
     String breakUrlAndGetShopIndexID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller_shop);
-        shopDetailsLayoutID=findViewById(R.id.shopDetailsLayoutID);
+        shopDetailsLayoutID = findViewById(R.id.shopDetailsLayoutID);
         initializeActionBar();
         initviews();
-        if(getIntent().hasExtra("shop_name")) {
+        if (getIntent().hasExtra("shop_name")) {
 //            shopDetailsLayoutID.setVisibility(View.GONE);
             shop_name = getIntent().getStringExtra("shop_name");
             shop_link = getIntent().getStringExtra("shop_link");
-        }else{
-            shop= (Shops) getIntent().getExtras().getSerializable("shops");
-            shop_name=shop.getName();
+            setTitle(shop_name);
+        } else if (getIntent().hasExtra("myshop_link")) {
+            shop_link=getIntent().getExtras().getString("myshop_link");
+        } else {
+            shop = (Shops) getIntent().getExtras().getSerializable("shops");
+            shop_name = shop.getName();
 //            shopDetailsLayoutID.setVisibility(View.VISIBLE);
             shopAddressTxtView.setText(shop.getAddress());
             Glide.with(this).load(AppConfig.ASSET_URL + shop.getLogo()).into(shopLogoImageView);
-            breakUrlAndGetShopIndexID=shop.getLinks().getFeatured().substring(shop.getLinks().getFeatured().lastIndexOf("/")+1);
-            shop_link="https://clients.moxols.com/quicker/api/v1/shops/details/"+breakUrlAndGetShopIndexID;
+            breakUrlAndGetShopIndexID = shop.getLinks().getFeatured().substring(shop.getLinks().getFeatured().lastIndexOf("/") + 1);
+            shop_link = "https://clients.moxols.com/quicker/api/v1/shops/details/" + breakUrlAndGetShopIndexID;
+            setTitle(shop_name);
         }
-        setTitle(shop_name);
         shop_details.setVisibility(View.GONE);
         progress_bar.setVisibility(View.VISIBLE);
         featured.setVisibility(View.GONE);
@@ -78,7 +82,7 @@ public class SellerShopActivity extends BaseActivity implements SellerShopView, 
         shopPresenter.getShopDetails(shop_link);
     }
 
-    private void initviews(){
+    private void initviews() {
         sliderLayout = findViewById(R.id.imageSlider);
         sliderLayout.stopAutoCycle();
         shopAddressTxtView = findViewById(R.id.shopAddressTxtView);
@@ -102,6 +106,7 @@ public class SellerShopActivity extends BaseActivity implements SellerShopView, 
             sliderLayout.addSlider(textSliderView);
         }
         shopAddressTxtView.setText(shop.getAddress());
+        setTitle(shop.getName());
         Glide.with(this).load(AppConfig.ASSET_URL + shop.getLogo()).into(shopLogoImageView);
         sliderLayout.setPresetTransformer(SliderLayout.Transformer.Default);
         sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
@@ -151,7 +156,7 @@ public class SellerShopActivity extends BaseActivity implements SellerShopView, 
                 = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(horizontalLayoutManager);
         //adapter.setClickListener(this);
-        RecyclerViewMargin decoration = new RecyclerViewMargin(convertDpToPx(this,10), 2);
+        RecyclerViewMargin decoration = new RecyclerViewMargin(convertDpToPx(this, 10), 2);
         recyclerView.addItemDecoration(decoration);
         ProductListingAdapter adapter = new ProductListingAdapter(getApplicationContext(), products, this);
         recyclerView.setAdapter(adapter);

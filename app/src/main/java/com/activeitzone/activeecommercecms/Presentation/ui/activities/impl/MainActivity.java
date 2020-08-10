@@ -165,10 +165,12 @@ public class MainActivity extends AppCompatActivity implements AppSettingsIntera
     private boolean loadFragment(Fragment fragment) {
         if (fragment != null) {
             if (fragment != homeFragment){
+                action_qr_scanner.setVisibility(View.GONE);
                 cart.setVisibility(View.GONE);
                 search.setVisibility(View.GONE);
             }
             else {
+                action_qr_scanner.setVisibility(View.VISIBLE);
                 cart.setVisibility(View.VISIBLE);
                 search.setVisibility(View.VISIBLE);
             }
