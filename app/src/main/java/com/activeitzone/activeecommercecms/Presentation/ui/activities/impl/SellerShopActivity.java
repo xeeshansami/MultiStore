@@ -56,19 +56,19 @@ public class SellerShopActivity extends BaseActivity implements SellerShopView, 
         initializeActionBar();
         initviews();
         if(getIntent().hasExtra("shop_name")) {
-            shopDetailsLayoutID.setVisibility(View.GONE);
+//            shopDetailsLayoutID.setVisibility(View.GONE);
             shop_name = getIntent().getStringExtra("shop_name");
             shop_link = getIntent().getStringExtra("shop_link");
-            setTitle(shop_name);
         }else{
             shop= (Shops) getIntent().getExtras().getSerializable("shops");
-            setTitle(shop.getName());
-            shopDetailsLayoutID.setVisibility(View.VISIBLE);
+            shop_name=shop.getName();
+//            shopDetailsLayoutID.setVisibility(View.VISIBLE);
             shopAddressTxtView.setText(shop.getAddress());
             Glide.with(this).load(AppConfig.ASSET_URL + shop.getLogo()).into(shopLogoImageView);
             breakUrlAndGetShopIndexID=shop.getLinks().getFeatured().substring(shop.getLinks().getFeatured().lastIndexOf("/")+1);
             shop_link="https://clients.moxols.com/quicker/api/v1/shops/details/"+breakUrlAndGetShopIndexID;
         }
+        setTitle(shop_name);
         shop_details.setVisibility(View.GONE);
         progress_bar.setVisibility(View.VISIBLE);
         featured.setVisibility(View.GONE);
@@ -101,6 +101,8 @@ public class SellerShopActivity extends BaseActivity implements SellerShopView, 
                     .setScaleType(BaseSliderView.ScaleType.CenterInside);
             sliderLayout.addSlider(textSliderView);
         }
+        shopAddressTxtView.setText(shop.getAddress());
+        Glide.with(this).load(AppConfig.ASSET_URL + shop.getLogo()).into(shopLogoImageView);
         sliderLayout.setPresetTransformer(SliderLayout.Transformer.Default);
         sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
         btn_seller_products.setOnClickListener(new View.OnClickListener() {
