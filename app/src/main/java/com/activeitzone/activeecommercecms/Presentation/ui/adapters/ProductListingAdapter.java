@@ -83,6 +83,7 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
             discounted_price.setText(AppConfig.convertPrice(context, product.getBaseDiscountedPrice()));
             price.setText(AppConfig.convertPrice(context, product.getBasePrice()));
             if (product.getBaseDiscountedPrice().equals(product.getBasePrice())) {
+//                price.setVisibility(View.GONE);
                 price.setVisibility(View.GONE);
             }
             price.setPaintFlags(price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
