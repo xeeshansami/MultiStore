@@ -109,10 +109,8 @@ public class MarketShopListingActivity extends BaseActivity implements  MarketSh
 
     @Override
     public void onMarketShopDetailtemClick(MarketDetailsResponse markets) {
-//        Intent intent = new Intent(this, ProductDetailsActivity.class);
-//        intent.putExtra("product_name", product.getName());
-//        intent.putExtra("link", product.getLinks().getDetails());
-//        intent.putExtra("top_selling", product.getLinks().getRelated());
-//        startActivity(intent);
+        Intent intent = new Intent(this, SellerShopActivity.class);
+        intent.putExtra("shops",  markets.getId());
+        startActivity(intent);
     }
 }

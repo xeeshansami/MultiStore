@@ -62,7 +62,9 @@ public class SellerShopActivity extends BaseActivity implements SellerShopView, 
             shop_link = getIntent().getStringExtra("shop_link");
             setTitle(shop_name);
         } else if (getIntent().hasExtra("myshop_link")) {
-            shop_link=getIntent().getExtras().getString("myshop_link");
+            shop_link = getIntent().getExtras().getString("myshop_link");
+        } else if (getIntent().hasExtra("shops")) {
+            shop_link = "https://clients.moxols.com/quicker/api/v1/shops/details/" + getIntent().getExtras().getString("shops");
         } else {
             shop = (Shops) getIntent().getExtras().getSerializable("shops");
             shop_name = shop.getName();

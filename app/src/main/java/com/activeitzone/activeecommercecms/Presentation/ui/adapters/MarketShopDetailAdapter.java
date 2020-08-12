@@ -83,17 +83,20 @@ public class MarketShopDetailAdapter extends RecyclerView.Adapter<MarketShopDeta
 
         public void bind(MarketDetailsResponse product) {
             Glide.with(context).load(AppConfig.ASSET_URL + product.getLogo()).into(image);
-            discounted_price.setText("Slug");
-            price.setText(product.getSlug());
+//            discounted_price.setText("Slug");
+//            price.setText(product.getSlug());
             /*if (product.getBaseDiscountedPrice().equals(product.getBasePrice())) {
 //                price.setVisibility(View.GONE);
                 price.setVisibility(View.GONE);
             }*/
 //            price.setPaintFlags(price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            name.setText(product.getName());
+            name.setText(product.getMetaTitle());
+            name.setGravity(View.TEXT_ALIGNMENT_CENTER);
             ratingBar.setVisibility(View.GONE);
+            price.setVisibility(View.GONE);
 //            sales.setText("Shipping Cost:"+product.getShippingCost());
             sales.setVisibility(View.GONE);
+            discounted_price.setVisibility(View.GONE);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
