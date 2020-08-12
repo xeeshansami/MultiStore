@@ -10,23 +10,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.activeitzone.activeecommercecms.Models.Shops;
-import com.activeitzone.activeecommercecms.Presentation.ui.listeners.ShopsClickListener;
+import com.activeitzone.activeecommercecms.Models.Markets;
+import com.activeitzone.activeecommercecms.Presentation.ui.listeners.MarketsClickListener;
 import com.activeitzone.activeecommercecms.R;
 import com.activeitzone.activeecommercecms.Utils.AppConfig;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-public class TopShopsAdapter extends RecyclerView.Adapter<TopShopsAdapter.ViewHolder> {
+public class TopMarketsAdapter extends RecyclerView.Adapter<TopMarketsAdapter.ViewHolder> {
 
     private Context context;
-    private List<Shops> mCategories;
+    private List<Markets> mCategories;
     private LayoutInflater mInflater;
-    private ShopsClickListener mClickListener;
+    private MarketsClickListener mClickListener;
 
     // data is passed into the constructor
-    public TopShopsAdapter(Context context, List<Shops> categories, ShopsClickListener listener) {
+    public TopMarketsAdapter(Context context, List<Markets> categories, MarketsClickListener listener) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.mCategories = categories;
@@ -64,13 +64,14 @@ public class TopShopsAdapter extends RecyclerView.Adapter<TopShopsAdapter.ViewHo
             textView = itemView.findViewById(R.id.category_name);
         }
 
-        public void bind(final Shops shops) {
-            Glide.with(context).load(AppConfig.ASSET_URL + shops.getLogo()).into(imageView);
-            textView.setText(shops.getName());
+        public void bind(final Markets markets) {
+            Glide.with(context).load(AppConfig.ASSET_URL + markets.getLogo()).into(imageView);
+
+            textView.setText(markets.getName());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mClickListener != null) mClickListener.onShopsItemClick(shops);
+                    if (mClickListener != null) mClickListener.onMarketsItemClick(markets);
                 }
             });
         }

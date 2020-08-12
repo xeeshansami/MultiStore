@@ -36,6 +36,7 @@
         </activity>
         <activity android:name=".Presentation.ui.activities.impl.ProductReviewActivity" />
         <activity android:name=".Utils.ScannerActivity" />
+        <activity android:name=".Presentation.ui.activities.impl.MarketShopListingActivity" />
         <activity android:name=".Presentation.ui.activities.impl.AccountInfoActivity" />
         <activity android:name=".Presentation.ui.activities.impl.StripePaymentActivity" />
         <activity android:name=".Presentation.ui.activities.impl.SellerShopActivity" />

@@ -11,14 +11,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.activeitzone.activeecommercecms.Models.Category;
+import com.activeitzone.activeecommercecms.Models.Markets;
 import com.activeitzone.activeecommercecms.Presentation.ui.listeners.CategoryClickListener;
+import com.activeitzone.activeecommercecms.Presentation.ui.listeners.MarketsClickListener;
 import com.activeitzone.activeecommercecms.R;
 import com.activeitzone.activeecommercecms.Utils.AppConfig;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-public class TopCategoryAdapter extends RecyclerView.Adapter<TopCategoryAdapter.ViewHolder> {
+public class TopCategoriesAdapter extends RecyclerView.Adapter<TopCategoriesAdapter.ViewHolder> {
 
     private Context context;
     private List<Category> mCategories;
@@ -26,7 +28,7 @@ public class TopCategoryAdapter extends RecyclerView.Adapter<TopCategoryAdapter.
     private CategoryClickListener mClickListener;
 
     // data is passed into the constructor
-    public TopCategoryAdapter(Context context, List<Category> categories, CategoryClickListener listener) {
+    public TopCategoriesAdapter(Context context, List<Category> categories, CategoryClickListener listener) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.mCategories = categories;

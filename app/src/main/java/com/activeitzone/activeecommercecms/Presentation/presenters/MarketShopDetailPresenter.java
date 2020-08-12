@@ -2,6 +2,7 @@ package com.activeitzone.activeecommercecms.Presentation.presenters;
 
 import com.activeitzone.activeecommercecms.Network.response.MarketDetailsResponse;
 import com.activeitzone.activeecommercecms.Network.response.ProductListingResponse;
+import com.activeitzone.activeecommercecms.Presentation.ui.activities.MarketShopsDetailsView;
 import com.activeitzone.activeecommercecms.Presentation.ui.activities.ProductListingView;
 import com.activeitzone.activeecommercecms.domain.executor.Executor;
 import com.activeitzone.activeecommercecms.domain.executor.MainThread;
@@ -10,29 +11,30 @@ import com.activeitzone.activeecommercecms.domain.interactors.ProductListingInte
 import com.activeitzone.activeecommercecms.domain.interactors.impl.MarketShopDetailsInteractorImpl;
 import com.activeitzone.activeecommercecms.domain.interactors.impl.ProductListingInteractorImpl;
 
-public class ProductListingPresenter extends AbstractPresenter implements ProductListingInteractor.CallBack{
-    private ProductListingView productListingView;
+import java.util.List;
 
-    public ProductListingPresenter(Executor executor, MainThread mainThread, ProductListingView productListingView) {
+public class MarketShopDetailPresenter extends AbstractPresenter implements MarketShopDetailsInteractor.CallBack {
+    private MarketShopsDetailsView marketPresenterView;
+
+    public MarketShopDetailPresenter(Executor executor, MainThread mainThread, MarketShopsDetailsView productListingView) {
         super(executor, mainThread);
-        this.productListingView = productListingView;
+        this.marketPresenterView = productListingView;
     }
 
-    public void getProducts(String url) {
-        new ProductListingInteractorImpl(mExecutor, mMainThread, this, url).execute();
+    public void getMarketShopDetails(String id) {
+        new MarketShopDetailsInteractorImpl(mExecutor, mMainThread, this, id).execute();
     }
-
 
 
     @Override
-    public void onProductDownloaded(ProductListingResponse productListingResponse) {
-        if (productListingView != null) {
-            productListingView.setProducts(productListingResponse);
+    public void onMarketShopDetailsDownloaded(List<MarketDetailsResponse> productListingResponse) {
+        if (marketPresenterView != null) {
+            marketPresenterView.setMarketShopsDetails(productListingResponse);
         }
     }
 
     @Override
-    public void onProductDownloadError() {
+    public void onMarketShopDetailsDownloadError() {
 
     }
 }

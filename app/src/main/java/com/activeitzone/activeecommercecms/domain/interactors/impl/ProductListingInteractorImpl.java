@@ -29,7 +29,6 @@ public class ProductListingInteractorImpl extends AbstractInteractor {
     public void run() {
         apiService = ApiClient.getClient().create(ProductListingApiInterface.class);
         Call<ProductListingResponse> call = apiService.getProducts(url);
-
         call.enqueue(new Callback<ProductListingResponse>() {
             @Override
             public void onResponse(Call<ProductListingResponse> call, Response<ProductListingResponse> response) {

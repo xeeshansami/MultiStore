@@ -28,7 +28,7 @@ public class ApiClient {
             OkHttpClient client = new OkHttpClient.Builder()
                     .addInterceptor(interceptor)
                     .protocols(Arrays.asList(Protocol.HTTP_2, Protocol.HTTP_1_1, Protocol.SPDY_3))
-                    .connectTimeout(20, TimeUnit.SECONDS)
+                    .connectTimeout(59, TimeUnit.SECONDS)
                     .readTimeout(20000, TimeUnit.SECONDS)
                     .writeTimeout(10000, TimeUnit.SECONDS)
                     .retryOnConnectionFailure(true)

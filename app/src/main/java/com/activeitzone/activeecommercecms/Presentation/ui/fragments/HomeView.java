@@ -5,6 +5,7 @@ import com.activeitzone.activeecommercecms.Models.Banner;
 import com.activeitzone.activeecommercecms.Models.Brand;
 import com.activeitzone.activeecommercecms.Models.Category;
 import com.activeitzone.activeecommercecms.Models.FlashDeal;
+import com.activeitzone.activeecommercecms.Models.Markets;
 import com.activeitzone.activeecommercecms.Models.Product;
 import com.activeitzone.activeecommercecms.Models.Shops;
 import com.activeitzone.activeecommercecms.Models.SliderImage;
@@ -33,6 +34,8 @@ public interface HomeView {
     void setTopCategories(List<Category> categories);
 
     void setTopShops(List<Shops> shops);
+
+    void setTopMarkets(List<Markets> shops);
 
     void setPopularBrands(List<Brand> brands);
 

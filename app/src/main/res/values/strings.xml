@@ -13,4 +13,5 @@
     <string name="fb_login_protocol_scheme">fb2604843702963186</string>
 
     <string name="server_client_id">266911894235-ken7di50hu33ggobtadq7tsb2s8q3f4n.apps.googleusercontent.com</string>
+    <string name="no_shops_found">No Shops Found</string>
 </resources>

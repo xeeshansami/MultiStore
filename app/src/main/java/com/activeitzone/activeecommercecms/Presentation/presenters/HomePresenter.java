@@ -5,6 +5,7 @@ import com.activeitzone.activeecommercecms.Models.Banner;
 import com.activeitzone.activeecommercecms.Models.Brand;
 import com.activeitzone.activeecommercecms.Models.Category;
 import com.activeitzone.activeecommercecms.Models.FlashDeal;
+import com.activeitzone.activeecommercecms.Models.Markets;
 import com.activeitzone.activeecommercecms.Models.Product;
 import com.activeitzone.activeecommercecms.Models.Shops;
 import com.activeitzone.activeecommercecms.Models.SliderImage;
@@ -25,6 +26,7 @@ import com.activeitzone.activeecommercecms.domain.interactors.HomeCategoriesInte
 import com.activeitzone.activeecommercecms.domain.interactors.SliderInteractor;
 import com.activeitzone.activeecommercecms.domain.interactors.TodaysDealInteractor;
 import com.activeitzone.activeecommercecms.domain.interactors.TopCategoryInteractor;
+import com.activeitzone.activeecommercecms.domain.interactors.TopMarketsInteractor;
 import com.activeitzone.activeecommercecms.domain.interactors.TopShopsInteractor;
 import com.activeitzone.activeecommercecms.domain.interactors.impl.AppSettingsInteractorImpl;
 import com.activeitzone.activeecommercecms.domain.interactors.impl.AuctionBidInteractorImpl;
@@ -38,12 +40,13 @@ import com.activeitzone.activeecommercecms.domain.interactors.impl.HomeCategorie
 import com.activeitzone.activeecommercecms.domain.interactors.impl.SliderInteractorImpl;
 import com.activeitzone.activeecommercecms.domain.interactors.impl.TodaysDealInteractorImpl;
 import com.activeitzone.activeecommercecms.domain.interactors.impl.TopCategoriesInteractorImpl;
+import com.activeitzone.activeecommercecms.domain.interactors.impl.TopMarketsInteractorImpl;
 import com.activeitzone.activeecommercecms.domain.interactors.impl.TopShopsInteractorImpl;
 import com.google.gson.JsonObject;
 
 import java.util.List;
 
-public class HomePresenter extends AbstractPresenter implements AppSettingsInteractor.CallBack, SliderInteractor.CallBack, HomeCategoriesInteractor.CallBack, TodaysDealInteractor.CallBack, FlashDealInteractor.CallBack, BestSellingInteractor.CallBack, BannerInteractor.CallBack, FeaturedProductInteractor.CallBack, BrandInteractor.CallBack, TopCategoryInteractor.CallBack, AuctionProductInteractor.CallBack, AuctionBidInteractor.CallBack,TopShopsInteractor.CallBack{
+public class HomePresenter extends AbstractPresenter implements AppSettingsInteractor.CallBack, SliderInteractor.CallBack, HomeCategoriesInteractor.CallBack, TodaysDealInteractor.CallBack, FlashDealInteractor.CallBack, BestSellingInteractor.CallBack, BannerInteractor.CallBack, FeaturedProductInteractor.CallBack, BrandInteractor.CallBack, TopCategoryInteractor.CallBack, AuctionProductInteractor.CallBack, AuctionBidInteractor.CallBack,TopShopsInteractor.CallBack, TopMarketsInteractor.CallBack{
     private HomeView homeView;
 
     public HomePresenter(Executor executor, MainThread mainThread, HomeView homeView) {
@@ -89,6 +92,10 @@ public class HomePresenter extends AbstractPresenter implements AppSettingsInter
 
     public void getTopShops() {
         new TopShopsInteractorImpl(mExecutor, mMainThread, this).execute();
+    }
+
+    public void getTopMarkets() {
+        new TopMarketsInteractorImpl(mExecutor, mMainThread, this).execute();
     }
 
     public void getPopularbrands() {
@@ -256,6 +263,18 @@ public class HomePresenter extends AbstractPresenter implements AppSettingsInter
 
     @Override
     public void onTopShopsDownloadError() {
+
+    }
+
+    @Override
+    public void onTopMarketsDownloaded(List<Markets> markets) {
+        if (homeView != null) {
+            homeView.setTopMarkets(markets);
+        }
+    }
+
+    @Override
+    public void onTopMarketsDownloadError() {
 
     }
 }

@@ -2,9 +2,7 @@ package com.activeitzone.activeecommercecms.Presentation.ui.fragments.impl;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +18,7 @@ import com.activeitzone.activeecommercecms.Models.Banner;
 import com.activeitzone.activeecommercecms.Models.Brand;
 import com.activeitzone.activeecommercecms.Models.Category;
 import com.activeitzone.activeecommercecms.Models.FlashDeal;
+import com.activeitzone.activeecommercecms.Models.Markets;
 import com.activeitzone.activeecommercecms.Models.Product;
 import com.activeitzone.activeecommercecms.Models.Shops;
 import com.activeitzone.activeecommercecms.Models.SliderImage;
@@ -28,6 +27,7 @@ import com.activeitzone.activeecommercecms.Network.response.AuctionBidResponse;
 import com.activeitzone.activeecommercecms.Network.response.AuthResponse;
 import com.activeitzone.activeecommercecms.Presentation.presenters.HomePresenter;
 import com.activeitzone.activeecommercecms.Presentation.ui.activities.impl.LoginActivity;
+import com.activeitzone.activeecommercecms.Presentation.ui.activities.impl.MarketShopListingActivity;
 import com.activeitzone.activeecommercecms.Presentation.ui.activities.impl.ProductDetailsActivity;
 import com.activeitzone.activeecommercecms.Presentation.ui.activities.impl.ProductListingActivity;
 import com.activeitzone.activeecommercecms.Presentation.ui.activities.impl.SellerShopActivity;
@@ -36,12 +36,14 @@ import com.activeitzone.activeecommercecms.Presentation.ui.adapters.BestSellingA
 import com.activeitzone.activeecommercecms.Presentation.ui.adapters.BrandAdapter;
 import com.activeitzone.activeecommercecms.Presentation.ui.adapters.FeaturedProductAdapter;
 import com.activeitzone.activeecommercecms.Presentation.ui.adapters.TodaysDealAdapter;
-import com.activeitzone.activeecommercecms.Presentation.ui.adapters.TopCategoryAdapter;
+import com.activeitzone.activeecommercecms.Presentation.ui.adapters.TopCategoriesAdapter;
+import com.activeitzone.activeecommercecms.Presentation.ui.adapters.TopMarketsAdapter;
 import com.activeitzone.activeecommercecms.Presentation.ui.adapters.TopShopsAdapter;
 import com.activeitzone.activeecommercecms.Presentation.ui.fragments.HomeView;
 import com.activeitzone.activeecommercecms.Presentation.ui.listeners.AuctionClickListener;
 import com.activeitzone.activeecommercecms.Presentation.ui.listeners.BrandClickListener;
 import com.activeitzone.activeecommercecms.Presentation.ui.listeners.CategoryClickListener;
+import com.activeitzone.activeecommercecms.Presentation.ui.listeners.MarketsClickListener;
 import com.activeitzone.activeecommercecms.Presentation.ui.listeners.ProductClickListener;
 import com.activeitzone.activeecommercecms.Presentation.ui.listeners.ShopsClickListener;
 import com.activeitzone.activeecommercecms.R;
@@ -61,7 +63,6 @@ import com.kingfisher.easyviewindicator.AnyViewIndicator;
 import com.thekhaeng.recyclerviewmargin.LayoutMarginDecoration;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import androidx.annotation.Nullable;
@@ -71,7 +72,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import cn.iwgang.countdownview.CountdownView;
 
-public class HomeFragment extends Fragment implements HomeView, CategoryClickListener, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener, ProductClickListener, BrandClickListener, AuctionClickListener, ShopsClickListener {
+public class HomeFragment extends Fragment implements HomeView, MarketsClickListener, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener, ProductClickListener, BrandClickListener, AuctionClickListener, ShopsClickListener, CategoryClickListener {
     private View v;
     List<SliderImage> sliderImages;
     private SliderLayout sliderLayout;
@@ -120,6 +121,7 @@ public class HomeFragment extends Fragment implements HomeView, CategoryClickLis
         homePresenter.getAppSettings();
         homePresenter.getSliderImages();
         homePresenter.getTopShops();
+        homePresenter.getTopMarkets();
         homePresenter.getTopCategories();
         homePresenter.getBanners();
 
@@ -137,6 +139,7 @@ public class HomeFragment extends Fragment implements HomeView, CategoryClickLis
         homePresenter.getFeaturedProducts();
         homePresenter.getPopularbrands();
         homePresenter.getTopShops();
+        homePresenter.getTopMarkets();
         homePresenter.getAuctionProducts();
     }
 
@@ -188,9 +191,7 @@ public class HomeFragment extends Fragment implements HomeView, CategoryClickLis
     public void setFlashDeal(FlashDeal flashDeal) {
         if (flashDeal.getProducts().getData().size() > 0){
             flash_deals_text.setText(flashDeal.getTitle());
-
             mCvCountdownView.start((flashDeal.getEndDate()*1000) - System.currentTimeMillis());
-
             RecyclerView recyclerView = v.findViewById(R.id.flash_deals);
             GridLayoutManager horizontalLayoutManager
                     = new GridLayoutManager(getActivity(), 1, GridLayoutManager.HORIZONTAL, false);
@@ -285,7 +286,7 @@ public class HomeFragment extends Fragment implements HomeView, CategoryClickLis
         GridLayoutManager horizontalLayoutManager
                 = new GridLayoutManager(getActivity(), 1, GridLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(horizontalLayoutManager);
-        TopCategoryAdapter adapter = new TopCategoryAdapter(getActivity(), categories, HomeFragment.this);
+        TopCategoriesAdapter adapter = new TopCategoriesAdapter(getActivity(), categories, HomeFragment.this);
         recyclerView.addItemDecoration( new LayoutMarginDecoration( 1,  AppConfig.convertDpToPx(getContext(), 10)) );
         recyclerView.setAdapter(adapter);
     }
@@ -300,6 +301,18 @@ public class HomeFragment extends Fragment implements HomeView, CategoryClickLis
         recyclerView.addItemDecoration( new LayoutMarginDecoration( 1,  AppConfig.convertDpToPx(getContext(), 10)) );
         recyclerView.setAdapter(adapter);
     }
+
+    @Override
+    public void setTopMarkets(List<Markets> markets) {
+        RecyclerView recyclerView = v.findViewById(R.id.top_markets);
+        GridLayoutManager horizontalLayoutManager
+                = new GridLayoutManager(getActivity(), 1, GridLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(horizontalLayoutManager);
+        TopMarketsAdapter adapter = new TopMarketsAdapter(getActivity(), markets, HomeFragment.this);
+        recyclerView.addItemDecoration( new LayoutMarginDecoration( 1,  AppConfig.convertDpToPx(getContext(), 10)) );
+        recyclerView.setAdapter(adapter);
+    }
+
     @Override
     public void setPopularBrands(List<Brand> brands) {
         RecyclerView recyclerView = v.findViewById(R.id.popular_brads);
@@ -345,13 +358,6 @@ public class HomeFragment extends Fragment implements HomeView, CategoryClickLis
         //Log.d("SliderPosition", String.valueOf(state));
     }
 
-    @Override
-    public void onCategoryItemClick(Category category) {
-        Intent intent = new Intent(getContext(), ProductListingActivity.class);
-        intent.putExtra("title", category.getName());
-        intent.putExtra("url", category.getLinks().getProducts());
-        startActivity(intent);
-    }
 
     @Override
     public void onProductItemClick(Product product) {
@@ -430,6 +436,22 @@ public class HomeFragment extends Fragment implements HomeView, CategoryClickLis
     public void onShopsItemClick(Shops shops) {
         Intent intent = new Intent(getActivity(), SellerShopActivity.class);
         intent.putExtra("shops",  shops);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onCategoryItemClick(Category category) {
+        Intent intent = new Intent(getContext(), ProductListingActivity.class);
+        intent.putExtra("title", category.getName());
+        intent.putExtra("url", category.getLinks().getProducts());
+        startActivity(intent);
+    }
+
+    @Override
+    public void onMarketsItemClick(Markets markets) {
+        Intent intent = new Intent(getContext(), MarketShopListingActivity.class);
+        intent.putExtra("title", markets.getName());
+        intent.putExtra("id", markets.getId());
         startActivity(intent);
     }
 }

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.activeitzone.activeecommercecms.Models.Category;
 import com.activeitzone.activeecommercecms.Presentation.ui.listeners.CategoryClickListener;
+import com.activeitzone.activeecommercecms.Presentation.ui.listeners.MarketsClickListener;
 import com.activeitzone.activeecommercecms.R;
 import com.activeitzone.activeecommercecms.Utils.AppConfig;
 import com.bumptech.glide.Glide;
