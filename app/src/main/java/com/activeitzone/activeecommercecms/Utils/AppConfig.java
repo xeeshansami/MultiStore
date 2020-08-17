@@ -9,8 +9,10 @@ import java.text.DecimalFormat;
 public class AppConfig {
     public static AppSettings appSettings;
 
-    public static String BASE_URL = "https://clients.moxols.com/quicker/api/v1/";
-    public static String ASSET_URL = "https://clients.moxols.com/quicker/public/";
+    public static String BASE_URL = "https://quicker.com.pk/api/v1/";
+//    public static String BASE_URL = "https://clients.moxols.com/quicker/api/v1/";
+//    public static String ASSET_URL = "https://clients.moxols.com/quicker/public/";
+    public static String ASSET_URL = "https://quicker.com.pk/public/";
 
 //    public static String BASE_URL = "http://192.168.1.104/shop/api/v1/";
 //    public static String ASSET_URL = "http://192.168.1.104/shop/public/";
@@ -20,7 +22,8 @@ public class AppConfig {
 
     public static String convertPrice(Context context, Double price) {
         appSettings = new UserPrefs(context).getAppSettingsPreferenceObjectJson("app_settings_response").getData().get(0);
-        return appSettings.getCurrency().getSymbol() + new DecimalFormat("#,###.00").format(Double.parseDouble(String.valueOf(price*appSettings.getCurrency().getExchangeRate())));
+//        return appSettings.getCurrency().getSymbol() + new DecimalFormat("#,###.00").format(Double.parseDouble(String.valueOf(price*appSettings.getCurrency().getExchangeRate())));
+        return "Rs." + new DecimalFormat("#,###.00").format(Double.parseDouble(String.valueOf(price*appSettings.getCurrency().getExchangeRate())));
     }
 
     public static AppSettings getAppSettings(Context context){
