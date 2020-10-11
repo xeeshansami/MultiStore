@@ -73,9 +73,7 @@ public class PaymentActivity extends BaseActivity implements PaymentSelectListen
         coupon_code = findViewById(R.id.coupon_code);
         apply_coupon = findViewById(R.id.apply_coupon);
         total_amount = findViewById(R.id.total_amount);
-
         total_amount.setText(AppConfig.convertPrice(this, total));
-
         place_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,8 +89,7 @@ public class PaymentActivity extends BaseActivity implements PaymentSelectListen
                     else if(payment_method.equals("cod")){
                         checkout_done(null);
                     }
-                }
-                else {
+                } else {
                     CustomToast.showToast(PaymentActivity.this, "Please select a payment method", R.color.colorWarning);
                 }
             }
@@ -189,7 +186,6 @@ public class PaymentActivity extends BaseActivity implements PaymentSelectListen
     private void checkout_done(String paymentID){
         progressDialog.setMessage("Checkout is processing. Please wait.");
         progressDialog.show();
-
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("shipping_address", shipping_address);
         jsonObject.addProperty("payment_type", payment_method);
@@ -198,7 +194,6 @@ public class PaymentActivity extends BaseActivity implements PaymentSelectListen
         jsonObject.addProperty("grand_total", total);
         jsonObject.addProperty("coupon_discount", coupon_discount);
         jsonObject.addProperty("coupon_code", "");
-
         if (payment_method.equals("paypal")){
             jsonObject.addProperty("nonce", paymentID);
             new PaymentPresenter(ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this).submitPaypalOrder(authResponse.getAccessToken(), jsonObject);

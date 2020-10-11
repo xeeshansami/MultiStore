@@ -61,9 +61,7 @@ public class ShippingActivity extends BaseActivity {
         payment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 isValid = true;
-
                 if(input_name.getText().toString().length() <= 0){
                     TextInputLayout til = (TextInputLayout) findViewById(R.id.input_name_layout);
                     til.setError("Name is required");
