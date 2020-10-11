@@ -67,7 +67,6 @@ public class LoadItemsActivity extends BaseActivity implements ItemsListView, Ma
         setTitle(title);
         recyclerView = findViewById(R.id.loadListItems);
         progressBar = findViewById(R.id.item_progress_bar);
-
         progressBar.setVisibility(View.VISIBLE);
         itemListPresenter = new ItemListPresenter(ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this);
         if (getIntent().getExtras().getInt("loadItem") == 0) {
