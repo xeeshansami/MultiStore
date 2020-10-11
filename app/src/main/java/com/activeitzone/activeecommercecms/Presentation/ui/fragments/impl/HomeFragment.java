@@ -281,7 +281,7 @@ public class HomeFragment extends Fragment implements HomeView, MarketsClickList
         RecyclerView recyclerView = v.findViewById(R.id.top_categories);
         GridLayoutManager horizontalLayoutManager = new GridLayoutManager(getActivity(), 1, GridLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(horizontalLayoutManager);
-        TopCategoriesAdapter adapter = new TopCategoriesAdapter(getActivity(), categories, HomeFragment.this);
+        TopCategoriesAdapter adapter = new TopCategoriesAdapter(getActivity(), categories, HomeFragment.this,1);
         recyclerView.addItemDecoration( new LayoutMarginDecoration( 1,  AppConfig.convertDpToPx(getContext(), 10)) );
         recyclerView.setAdapter(adapter);
     }
@@ -292,7 +292,7 @@ public class HomeFragment extends Fragment implements HomeView, MarketsClickList
         GridLayoutManager horizontalLayoutManager
                 = new GridLayoutManager(getActivity(), 1, GridLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(horizontalLayoutManager);
-        TopShopsAdapter adapter = new TopShopsAdapter(getActivity(), shops, HomeFragment.this);
+        TopShopsAdapter adapter = new TopShopsAdapter(getActivity(), shops, HomeFragment.this,1);
         recyclerView.addItemDecoration( new LayoutMarginDecoration( 1,  AppConfig.convertDpToPx(getContext(), 10)) );
         recyclerView.setAdapter(adapter);
     }
@@ -303,7 +303,7 @@ public class HomeFragment extends Fragment implements HomeView, MarketsClickList
         GridLayoutManager horizontalLayoutManager
                 = new GridLayoutManager(getActivity(), 1, GridLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(horizontalLayoutManager);
-        TopMarketsAdapter adapter = new TopMarketsAdapter(getActivity(), markets, HomeFragment.this);
+        TopMarketsAdapter adapter = new TopMarketsAdapter(getActivity(), markets, HomeFragment.this,1);
         recyclerView.addItemDecoration( new LayoutMarginDecoration( 1,  AppConfig.convertDpToPx(getContext(), 10)) );
         recyclerView.setAdapter(adapter);
     }

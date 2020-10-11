@@ -26,13 +26,17 @@ import com.activeitzone.activeecommercecms.Presentation.presenters.HomePresenter
 import com.activeitzone.activeecommercecms.Presentation.presenters.ItemListPresenter;
 import com.activeitzone.activeecommercecms.Presentation.ui.activities.ProductListingView;
 import com.activeitzone.activeecommercecms.Presentation.ui.adapters.ProductListingAdapter;
+import com.activeitzone.activeecommercecms.Presentation.ui.adapters.TopCategoriesAdapter;
 import com.activeitzone.activeecommercecms.Presentation.ui.adapters.TopMarketsAdapter;
+import com.activeitzone.activeecommercecms.Presentation.ui.adapters.TopShopsAdapter;
 import com.activeitzone.activeecommercecms.Presentation.ui.fragments.HomeView;
 import com.activeitzone.activeecommercecms.Presentation.ui.fragments.ItemsListView;
 import com.activeitzone.activeecommercecms.Presentation.ui.fragments.impl.HomeFragment;
+import com.activeitzone.activeecommercecms.Presentation.ui.listeners.CategoryClickListener;
 import com.activeitzone.activeecommercecms.Presentation.ui.listeners.EndlessRecyclerOnScrollListener;
 import com.activeitzone.activeecommercecms.Presentation.ui.listeners.MarketsClickListener;
 import com.activeitzone.activeecommercecms.Presentation.ui.listeners.ProductClickListener;
+import com.activeitzone.activeecommercecms.Presentation.ui.listeners.ShopsClickListener;
 import com.activeitzone.activeecommercecms.R;
 import com.activeitzone.activeecommercecms.Threading.MainThreadImpl;
 import com.activeitzone.activeecommercecms.Utils.AppConfig;
@@ -44,15 +48,15 @@ import com.thekhaeng.recyclerviewmargin.LayoutMarginDecoration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LoadItemsActivity extends BaseActivity implements ItemsListView, MarketsClickListener {
+public class LoadItemsActivity extends BaseActivity implements ItemsListView, MarketsClickListener, CategoryClickListener, ShopsClickListener {
 
-    private List<Product> mProducts = new ArrayList<>();
     private ProductListingResponse productListingResponse = null;
     private ProductListingAdapter adapter;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private TextView products_empty_text;
     private ItemListPresenter itemListPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,15 +67,16 @@ public class LoadItemsActivity extends BaseActivity implements ItemsListView, Ma
         setTitle(title);
         recyclerView = findViewById(R.id.loadListItems);
         progressBar = findViewById(R.id.item_progress_bar);
-        GridLayoutManager horizontalLayoutManager = new GridLayoutManager(LoadItemsActivity.this, 3);
-        recyclerView.setLayoutManager(horizontalLayoutManager);
-        //adapter.setClickListener(this);
-        RecyclerViewMargin decoration = new RecyclerViewMargin(convertDpToPx(this,10), 2);
-        recyclerView.addItemDecoration(decoration);
-        recyclerView.setAdapter(adapter);
-//        progressBar.setVisibility(View.VISIBLE);
+
+        progressBar.setVisibility(View.VISIBLE);
         itemListPresenter = new ItemListPresenter(ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this);
-        itemListPresenter.getTopMarkets();
+        if (getIntent().getExtras().getInt("loadItem") == 0) {
+            itemListPresenter.getTopMarkets();
+        } else if (getIntent().getExtras().getInt("loadItem") == 1) {
+            itemListPresenter.getTopCategories();
+        } else if (getIntent().getExtras().getInt("loadItem") == 2) {
+            itemListPresenter.getTopShops();
+        }
     }
 
     public int convertDpToPx(Context context, float dp) {
@@ -81,23 +86,32 @@ public class LoadItemsActivity extends BaseActivity implements ItemsListView, Ma
 
     @Override
     public void setTopCategories(List<Category> categories) {
-
+        GridLayoutManager horizontalLayoutManager = new GridLayoutManager(LoadItemsActivity.this, 3);
+        recyclerView.setLayoutManager(horizontalLayoutManager);
+        TopCategoriesAdapter adapter = new TopCategoriesAdapter(this, categories, this,0);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void setTopShops(List<Shops> shops) {
-
+        GridLayoutManager horizontalLayoutManager = new GridLayoutManager(LoadItemsActivity.this, 3);
+        recyclerView.setLayoutManager(horizontalLayoutManager);
+        TopShopsAdapter adapter = new TopShopsAdapter(this, shops, this,0);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void setTopMarkets(List<Markets> markets) {
-        RecyclerView recyclerView = findViewById(R.id.top_markets);
-        GridLayoutManager horizontalLayoutManager
-                = new GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false);
+        GridLayoutManager horizontalLayoutManager = new GridLayoutManager(LoadItemsActivity.this, 3);
         recyclerView.setLayoutManager(horizontalLayoutManager);
-        TopMarketsAdapter adapter = new TopMarketsAdapter(this, markets, this);
-//        recyclerView.addItemDecoration( new LayoutMarginDecoration( 1,  AppConfig.convertDpToPx(this, 10)) );
+        TopMarketsAdapter adapter = new TopMarketsAdapter(this, markets, this,0);
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -105,6 +119,21 @@ public class LoadItemsActivity extends BaseActivity implements ItemsListView, Ma
         Intent intent = new Intent(this, MarketShopListingActivity.class);
         intent.putExtra("title", markets.getName());
         intent.putExtra("id", markets.getId());
+        startActivity(intent);
+    }
+
+    @Override
+    public void onCategoryItemClick(Category category) {
+        Intent intent = new Intent(this, ProductListingActivity.class);
+        intent.putExtra("title", category.getName());
+        intent.putExtra("url", category.getLinks().getProducts());
+        startActivity(intent);
+    }
+
+    @Override
+    public void onShopsItemClick(Shops shops) {
+        Intent intent = new Intent(this, SellerShopActivity.class);
+        intent.putExtra("shops",  shops);
         startActivity(intent);
     }
 }

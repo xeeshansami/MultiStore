@@ -30,13 +30,14 @@ public class TopCategoriesAdapter extends RecyclerView.Adapter<TopCategoriesAdap
     private LayoutInflater mInflater;
     private CategoryClickListener mClickListener;
     private final int limit = 3;
-
+    private int button=0;
     // data is passed into the constructor
-    public TopCategoriesAdapter(Context context, List<Category> categories, CategoryClickListener listener) {
+    public TopCategoriesAdapter(Context context, List<Category> categories, CategoryClickListener listener,int button) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.mCategories = categories;
         this.mClickListener = listener;
+        this.button=button;
     }
 
     // inflates the row layout from xml when needed
@@ -54,13 +55,15 @@ public class TopCategoriesAdapter extends RecyclerView.Adapter<TopCategoriesAdap
         //This is necessary even if you mention view gone in xml file.
         holder.viewAllBtnIDOfMarkets.setVisibility(View.GONE);
         //Compare size and add button at bottom of view,ie arraylist size
-        if (position == mCategories.size() - 1) {
+        if (position == mCategories.size() - 1&& this.button==1) {
             holder.viewAllBtnIDOfMarkets.setVisibility(View.VISIBLE);
         }
         holder.viewAllBtnIDOfMarkets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent  intent=new Intent(context, LoadItemsActivity.class);
+                intent.putExtra("loadItem",1);
+                intent.putExtra("title","All Categories");
                 context.startActivity(intent);
             }
         });

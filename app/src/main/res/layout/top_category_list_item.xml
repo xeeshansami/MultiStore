@@ -6,6 +6,7 @@
     android:background="@color/cardview_light_background"
     android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="1dp"
+    android:layout_margin="3dp"
     app:cardElevation="0dp">
 
     <RelativeLayout
