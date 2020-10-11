@@ -35,6 +35,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Presentation.ui.activities.impl.ProductReviewActivity" />
+        <activity android:name=".Presentation.ui.activities.impl.LoadItemsActivity" />
         <activity android:name=".Utils.ScannerActivity" />
         <activity android:name=".Presentation.ui.activities.impl.MarketShopListingActivity" />
         <activity android:name=".Presentation.ui.activities.impl.AccountInfoActivity" />

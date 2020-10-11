@@ -111,12 +111,9 @@ public class HomeFragment extends Fragment implements HomeView, MarketsClickList
         adapter = new AuctionProductAdapter(getActivity(), mAuctionProducts, this);
         auction_recyclerView.addItemDecoration(new LayoutMarginDecoration( 1,  AppConfig.convertDpToPx(getContext(), 10)));
         auction_recyclerView.setAdapter(adapter);
-
-
         sliderLayout = v.findViewById(R.id.imageSlider);
         sliderLayout.setVisibility(View.GONE);
         sliderLayout.stopAutoCycle();
-
         homePresenter = new HomePresenter(ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this);
         homePresenter.getAppSettings();
         homePresenter.getSliderImages();
@@ -124,7 +121,6 @@ public class HomeFragment extends Fragment implements HomeView, MarketsClickList
         homePresenter.getTopMarkets();
         homePresenter.getTopCategories();
         homePresenter.getBanners();
-
         return v;
     }
 
@@ -283,8 +279,7 @@ public class HomeFragment extends Fragment implements HomeView, MarketsClickList
     @Override
     public void setTopCategories(List<Category> categories) {
         RecyclerView recyclerView = v.findViewById(R.id.top_categories);
-        GridLayoutManager horizontalLayoutManager
-                = new GridLayoutManager(getActivity(), 1, GridLayoutManager.HORIZONTAL, false);
+        GridLayoutManager horizontalLayoutManager = new GridLayoutManager(getActivity(), 1, GridLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(horizontalLayoutManager);
         TopCategoriesAdapter adapter = new TopCategoriesAdapter(getActivity(), categories, HomeFragment.this);
         recyclerView.addItemDecoration( new LayoutMarginDecoration( 1,  AppConfig.convertDpToPx(getContext(), 10)) );

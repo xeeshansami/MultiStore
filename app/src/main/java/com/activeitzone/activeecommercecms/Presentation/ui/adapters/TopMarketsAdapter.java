@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ public class TopMarketsAdapter extends RecyclerView.Adapter<TopMarketsAdapter.Vi
     private List<Markets> mCategories;
     private LayoutInflater mInflater;
     private MarketsClickListener mClickListener;
+    private final int limit = 3;
 
     // data is passed into the constructor
     public TopMarketsAdapter(Context context, List<Markets> categories, MarketsClickListener listener) {
@@ -45,7 +47,20 @@ public class TopMarketsAdapter extends RecyclerView.Adapter<TopMarketsAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.bind(mCategories.get(position));
+        //This is necessary even if you mention view gone in xml file.
+        holder.viewAllBtnIDOfMarkets.setVisibility(View.GONE);
+        //Compare size and add button at buttom of view,ie arraylist size
+        if (position == mCategories.size() - 1) {
+            holder.viewAllBtnIDOfMarkets.setVisibility(View.VISIBLE);
+        }
+        holder.viewAllBtnIDOfMarkets.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Write code
+            }
+        });
     }
+
 
     // total number of rows
     @Override
@@ -57,16 +72,17 @@ public class TopMarketsAdapter extends RecyclerView.Adapter<TopMarketsAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView textView;
+        Button viewAllBtnIDOfMarkets;
 
         ViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.category_icon);
             textView = itemView.findViewById(R.id.category_name);
+            viewAllBtnIDOfMarkets = itemView.findViewById(R.id.viewAllBtnIDOfMarkets);
         }
 
         public void bind(final Markets markets) {
             Glide.with(context).load(AppConfig.ASSET_URL + markets.getLogo()).into(imageView);
-
             textView.setText(markets.getName());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
