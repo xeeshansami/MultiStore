@@ -117,9 +117,9 @@ public class PaymentActivity extends BaseActivity implements PaymentSelectListen
 
     private void setPaymentOptions(){
         List<PaymentModel> paymentModels = new ArrayList<>();
-        if (AppConfig.STRIPE_KEY.length() > 0){
+     /*   if (AppConfig.STRIPE_KEY.length() > 0){
             paymentModels.add(new PaymentModel(R.drawable.cardpayment, "card", "Checkout with Card"));
-        }
+        }*/
         paymentModels.add(new PaymentModel(R.drawable.cod, "cod", "Cash on Delivery"));
 
         RecyclerView recyclerView = findViewById(R.id.payment_select_list);

@@ -62,7 +62,7 @@ public class CartFragment extends Fragment implements CartView, CartItemListener
         total_amount = v.findViewById(R.id.total_amount);
         cart_empty_text = v.findViewById(R.id.cart_empty_text);
         linearLayout.setVisibility(View.GONE);
-        cartPresenter = new CartPresenter(ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this);
+        cartPresenter = new CartPresenter(ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this,getActivity());
         authResponse = new UserPrefs(getActivity()).getAuthPreferenceObjectJson("auth_response");
         if(authResponse != null && authResponse.getUser() != null){
             cartPresenter.getCartItems(authResponse.getUser().getId(), authResponse.getAccessToken());
@@ -96,9 +96,7 @@ public class CartFragment extends Fragment implements CartView, CartItemListener
                 tax = cartModel.getTax()+cartModel.getQuantity();
                 qty += cartModel.getQuantity();
             }
-
             total_amount.setText(AppConfig.convertPrice(getContext(), total));
-
             BottomNavigationMenuView bottomNavigationMenuView =
                     (BottomNavigationMenuView) navView.getChildAt(0);
             View v = bottomNavigationMenuView.getChildAt(3); // number of menu from left
@@ -116,11 +114,9 @@ public class CartFragment extends Fragment implements CartView, CartItemListener
             recyclerView.setLayoutManager(horizontalLayoutManager);
             CartListAdapter adapter = new CartListAdapter(getActivity(), cartItems, this);
             recyclerView.setAdapter(adapter);
-
             ItemTouchHelper itemTouchHelper = new
                     ItemTouchHelper(new SwipeToDeleteCallback(adapter));
             itemTouchHelper.attachToRecyclerView(recyclerView);
-
             updateCartBadge(cartItems);
         }
         else {

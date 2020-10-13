@@ -1,9 +1,13 @@
 package com.activeitzone.activeecommercecms.Presentation.presenters;
 
+import android.app.Activity;
+import android.content.Context;
+
 import com.activeitzone.activeecommercecms.Models.CartModel;
 import com.activeitzone.activeecommercecms.Network.response.CartQuantityUpdateResponse;
 import com.activeitzone.activeecommercecms.Network.response.RemoveCartResponse;
 import com.activeitzone.activeecommercecms.Presentation.ui.fragments.CartView;
+import com.activeitzone.activeecommercecms.Utils.CustomToast;
 import com.activeitzone.activeecommercecms.domain.executor.Executor;
 import com.activeitzone.activeecommercecms.domain.executor.MainThread;
 import com.activeitzone.activeecommercecms.domain.interactors.CartInteractor;
@@ -17,10 +21,11 @@ import java.util.List;
 
 public class CartPresenter extends AbstractPresenter implements CartInteractor.CallBack, RemoveCartInteractor.CallBack, CartQuantityInteractor.CallBack {
     private CartView cartView;
-
-    public CartPresenter(Executor executor, MainThread mainThread, CartView cartView) {
+    Context context;
+    public CartPresenter(Executor executor, MainThread mainThread, CartView cartView,Context context) {
         super(executor, mainThread);
         this.cartView = cartView;
+        this.context=context;
     }
 
     public void getCartItems(int id, String token) {
@@ -43,8 +48,8 @@ public class CartPresenter extends AbstractPresenter implements CartInteractor.C
     }
 
     @Override
-    public void onCartError() {
-
+    public void onCartError(String message) {
+        CustomToast.showToast((Activity) context,message,context.getResources().getColor(android.R.color.holo_red_dark));
     }
 
     @Override

@@ -31,7 +31,6 @@ public class CartInteractorImpl extends AbstractInteractor {
     public void run() {
         apiService = ApiClient.getClient().create(CartApiInterface.class);
         Call<CartResponse> call = apiService.getCartItems(token,"carts/"+user_id);
-
         call.enqueue(new Callback<CartResponse>() {
             @Override
             public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
@@ -44,7 +43,7 @@ public class CartInteractorImpl extends AbstractInteractor {
 
             @Override
             public void onFailure(Call<CartResponse> call, Throwable t) {
-                mCallback.onCartError();
+                mCallback.onCartError(t.getMessage());
             }
         });
 

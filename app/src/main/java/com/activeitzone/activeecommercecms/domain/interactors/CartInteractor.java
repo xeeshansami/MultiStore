@@ -9,6 +9,6 @@ public interface CartInteractor {
 
         void onCartLodaded(List<CartModel> cartModel);
 
-        void onCartError();
+        void onCartError(String message);
     }
 }
