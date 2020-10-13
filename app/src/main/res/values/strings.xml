@@ -14,4 +14,6 @@
 
     <string name="server_client_id">266911894235-ken7di50hu33ggobtadq7tsb2s8q3f4n.apps.googleusercontent.com</string>
     <string name="no_shops_found">No Shops Found</string>
+    <string name="yourorderhasbeenadded">Congratulations! Your order has been submitted successfully.</string>
+    <string name="don">Done</string>
 </resources>

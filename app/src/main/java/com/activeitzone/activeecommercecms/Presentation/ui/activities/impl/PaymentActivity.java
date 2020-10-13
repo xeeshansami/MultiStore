@@ -5,11 +5,13 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -227,19 +229,46 @@ public class PaymentActivity extends BaseActivity implements PaymentSelectListen
     @Override
     public void onOrderSubmitted(OrderResponse orderResponse) {
         progressDialog.dismiss();
+        orderCompleted("completed");
+        /*Submitedd order*/
         if (orderResponse.getSuccess()){
-            //CustomToast.showToast(this, orderResponse.getMessage(), R.color.colorSuccess);
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("message", orderResponse.getMessage());
-            intent.putExtra("position", "cart");
-            startActivity(intent);
-            finish();
+            orderCompleted( orderResponse.getMessage());
         }
         else {
             CustomToast.showToast(this, orderResponse.getMessage(), R.color.colorDanger);
         }
     }
+    void orderCompleted(String message) {
+        final AlertDialog alertDialog;
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setCancelable(true);
 
+        // ...Irrelevant code for customizing the buttons and title
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.ordercompleted, null);
+        dialogBuilder.setView(dialogView);
+        alertDialog = dialogBuilder.create();
+        TextView yourorder = dialogView.findViewById(R.id.yourorder);
+        yourorder.setText(getResources().getString(R.string.yourorderhasbeenadded) );
+        Button yourorderBtn = dialogView.findViewById(R.id.yourorderBtn);
+        yourorderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               /* Bundle bundle = new Bundle();
+                bundle.putInt("id", vendorProductDetail.getId());*/
+                Intent intent = new Intent(PaymentActivity.this, MainActivity.class);
+                intent.putExtra("message", message);
+                intent.putExtra("position", "cart");
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                        Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.show();
+    }
     public class PaymentModel{
         int drawable;
         String payment_method, payment_text;

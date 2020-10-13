@@ -38,7 +38,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.17'
     //Third Party Library
     implementation 'com.quinny898.library.persistentsearch:library:1.1.0-SNAPSHOT'
     implementation 'com.squareup.picasso:picasso:2.3.2'

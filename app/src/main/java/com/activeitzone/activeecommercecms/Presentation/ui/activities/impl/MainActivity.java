@@ -200,6 +200,12 @@ public class MainActivity extends AppCompatActivity implements AppSettingsIntera
     @Override
     protected void onStart() {
         super.onStart();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         if (getIntent().getExtras() != null){
             String message = getIntent().getStringExtra("message");
             String position = getIntent().getStringExtra("position");
