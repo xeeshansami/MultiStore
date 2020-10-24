@@ -2,32 +2,34 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="350dp"
     android:layout_height="wrap_content"
+    android:layout_gravity="center"
     android:background="@android:color/white"
-    android:padding="10sp"
-    android:layout_gravity="center">
+    android:padding="10sp">
 
     <RelativeLayout
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center">
+
         <ImageView
-            android:visibility="gone"
-            android:tint="@color/colorPrimary"
             android:id="@+id/thumbsupimage"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/ordercompleted_img"></ImageView>
+            android:src="@drawable/ordercompleted_img"
+            android:tint="@color/colorPrimary"
+            android:visibility="gone"></ImageView>
+
         <TextView
-            android:drawableTint="@color/colorPrimary"
-            android:gravity="center"
-            android:drawableLeft="@drawable/ic_done_black_24dp"
-            android:layout_toRightOf="@+id/thumbsupimage"
-            android:layout_margin="10dp"
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="CONGRATULATIONS"
+            android:layout_margin="10dp"
+            android:layout_toRightOf="@+id/thumbsupimage"
+            android:drawableLeft="@drawable/ic_done_black_24dp"
+            android:drawableTint="@color/colorPrimary"
             android:fontFamily="sans-serif-smallcaps"
+            android:gravity="center"
+            android:text="CONGRATULATIONS"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/unit_20sp"
             android:textStyle="bold"></TextView>
@@ -39,19 +41,18 @@
             android:layout_below="@+id/header"
             android:layout_margin="10dp"
             android:gravity="center">
+
             <pl.droidsonroids.gif.GifImageView
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/checkcircle"
-                />
+                android:src="@drawable/checkcircle" />
 
 
         </LinearLayout>
 
 
         <TextView
-            android:padding="5dp"
             android:id="@+id/yourorder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,36 +60,37 @@
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif-smallcaps"
             android:gravity="center_horizontal"
+            android:padding="5dp"
             android:text="@string/yourorderhasbeenadded"
             android:textSize="17dp"
             android:textStyle="bold"></TextView>
 
         <TextView
-            android:padding="5dp"
             android:id="@+id/yourrider_details"
             android:layout_width="wrap_content"
-            android:gravity="center_horizontal"
             android:layout_height="wrap_content"
             android:layout_below="@+id/yourorder"
             android:layout_centerHorizontal="true"
+            android:fontFamily="monospace"
+            android:gravity="center_horizontal"
+            android:padding="5dp"
             android:text="asdasdasdasdy"
             android:textColor="@color/colorPrimary"
             android:textSize="17dp"
-            android:fontFamily="monospace"
-            android:visibility="gone"
-            android:textStyle="bold"></TextView>
+            android:textStyle="bold"
+            android:visibility="gone"></TextView>
 
         <Button
-            android:layout_margin="10dp"
             android:id="@+id/yourorderBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/yourrider_details"
-            android:textStyle="bold"
             android:layout_alignParentRight="true"
-            android:fontFamily="monospace"
-            android:textColor="@color/bt_white_pressed"
+            android:layout_margin="10dp"
             android:backgroundTint="@color/colorPrimaryDark"
-            android:text="@string/don"></Button>
+            android:fontFamily="monospace"
+            android:text="@string/don"
+            android:textColor="@color/bt_white_pressed"
+            android:textStyle="bold"></Button>
     </RelativeLayout>
 </RelativeLayout>

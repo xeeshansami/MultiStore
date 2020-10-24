@@ -72,7 +72,7 @@ public class MarketShopListingActivity extends BaseActivity implements  MarketSh
 
         progressBar.setVisibility(View.VISIBLE);
         productListingPresenter = new MarketShopDetailPresenter(ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this);
-        productListingPresenter.getMarketShopDetails("https://clients.moxols.com/quicker/api/v1/markets/details/"+String.valueOf(id));
+        productListingPresenter.getMarketShopDetails("http://quicker.com.pk/api/v1/markets/details/"+String.valueOf(id));
     }
 
 

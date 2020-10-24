@@ -64,7 +64,8 @@ public class SellerShopActivity extends BaseActivity implements SellerShopView, 
         } else if (getIntent().hasExtra("myshop_link")) {
             shop_link = getIntent().getExtras().getString("myshop_link");
         } else if (getIntent().hasExtra("MarketShops")) {
-            shop_link = "https://clients.moxols.com/quicker/api/v1/shops/details/" + getIntent().getExtras().getString("MarketShops");
+//            shop_link = "https://clients.moxols.com/quicker/api/v1/shops/details/" + getIntent().getExtras().getString("MarketShops");
+            shop_link = "http://quicker.com.pk/api/v1/shops/details/" + getIntent().getExtras().getString("MarketShops");
         } else {
             shop = (Shops) getIntent().getExtras().getSerializable("shops");
             shop_name = shop.getName();
@@ -72,7 +73,7 @@ public class SellerShopActivity extends BaseActivity implements SellerShopView, 
             shopAddressTxtView.setText(shop.getAddress());
             Glide.with(this).load(AppConfig.ASSET_URL + shop.getLogo()).into(shopLogoImageView);
             breakUrlAndGetShopIndexID = shop.getLinks().getFeatured().substring(shop.getLinks().getFeatured().lastIndexOf("/") + 1);
-            shop_link = "https://clients.moxols.com/quicker/api/v1/shops/details/" + breakUrlAndGetShopIndexID;
+            shop_link = "http://quicker.com.pk/api/v1/shops/details/" + breakUrlAndGetShopIndexID;
             setTitle(shop_name);
         }
         shop_details.setVisibility(View.GONE);
@@ -99,13 +100,15 @@ public class SellerShopActivity extends BaseActivity implements SellerShopView, 
 
     @Override
     public void onShopDetailsLoaded(Shop shop) {
-        for (String photo : shop.getSliders()) {
-            TextSliderView textSliderView = new TextSliderView(this);
-            textSliderView
-                    .description("")
-                    .image(AppConfig.ASSET_URL + photo)
-                    .setScaleType(BaseSliderView.ScaleType.CenterInside);
-            sliderLayout.addSlider(textSliderView);
+        if(shop.getSliders()!=null) {
+            for (String photo : shop.getSliders()) {
+                TextSliderView textSliderView = new TextSliderView(this);
+                textSliderView
+                        .description("")
+                        .image(AppConfig.ASSET_URL + photo)
+                        .setScaleType(BaseSliderView.ScaleType.CenterInside);
+                sliderLayout.addSlider(textSliderView);
+            }
         }
         shopAddressTxtView.setText(shop.getAddress());
         setTitle(shop.getName());

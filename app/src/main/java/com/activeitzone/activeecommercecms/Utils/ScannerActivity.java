@@ -27,7 +27,7 @@ public class ScannerActivity extends Activity implements ZXingScannerView.Result
 
     @Override
     public void handleResult(Result result) {
-        if (result.toString().startsWith("https://clients.moxols.com/quicker/api/v1/shops/details/")) {
+        if (result.toString().startsWith("http://quicker.com.pk/api/v1/shops/details/")) {
             Intent intent = new Intent(this, SellerShopActivity.class);
             intent.putExtra("myshop_link", result.getText());
             CustomToast.showToast(this, "QR Code Scan Succeeded", R.color.colorSuccess);

@@ -55,9 +55,9 @@ public class TopCategoriesAdapter extends RecyclerView.Adapter<TopCategoriesAdap
         //This is necessary even if you mention view gone in xml file.
         holder.viewAllBtnIDOfMarkets.setVisibility(View.GONE);
         //Compare size and add button at bottom of view,ie arraylist size
-        if (position == mCategories.size() - 1&& this.button==1) {
+/*        if (position == mCategories.size() - 1&& this.button==1) {
             holder.viewAllBtnIDOfMarkets.setVisibility(View.VISIBLE);
-        }
+        }*/
         holder.viewAllBtnIDOfMarkets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

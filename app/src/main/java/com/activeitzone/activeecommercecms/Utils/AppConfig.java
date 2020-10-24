@@ -9,7 +9,7 @@ import java.text.DecimalFormat;
 public class AppConfig {
     public static AppSettings appSettings;
 
-    public static String BASE_URL = "https://quicker.com.pk/api/v1/";
+    public static String BASE_URL = "http://quicker.com.pk/api/v1/";
 //    public static String BASE_URL = "https://clients.moxols.com/quicker/api/v1/";
 //    public static String ASSET_URL = "https://clients.moxols.com/quicker/public/";
     public static String ASSET_URL = "https://quicker.com.pk/public/";

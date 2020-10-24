@@ -26,6 +26,7 @@ import com.activeitzone.activeecommercecms.Network.response.AppSettingsResponse;
 import com.activeitzone.activeecommercecms.Network.response.AuctionBidResponse;
 import com.activeitzone.activeecommercecms.Network.response.AuthResponse;
 import com.activeitzone.activeecommercecms.Presentation.presenters.HomePresenter;
+import com.activeitzone.activeecommercecms.Presentation.ui.activities.impl.LoadItemsActivity;
 import com.activeitzone.activeecommercecms.Presentation.ui.activities.impl.LoginActivity;
 import com.activeitzone.activeecommercecms.Presentation.ui.activities.impl.MarketShopListingActivity;
 import com.activeitzone.activeecommercecms.Presentation.ui.activities.impl.ProductDetailsActivity;
@@ -72,7 +73,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import cn.iwgang.countdownview.CountdownView;
 
-public class HomeFragment extends Fragment implements HomeView, MarketsClickListener, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener, ProductClickListener, BrandClickListener, AuctionClickListener, ShopsClickListener, CategoryClickListener {
+public class HomeFragment extends Fragment implements HomeView, MarketsClickListener, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener, ProductClickListener, BrandClickListener, AuctionClickListener, ShopsClickListener, CategoryClickListener, View.OnClickListener {
     private View v;
     List<SliderImage> sliderImages;
     private SliderLayout sliderLayout;
@@ -85,7 +86,7 @@ public class HomeFragment extends Fragment implements HomeView, MarketsClickList
     private RecyclerView auction_recyclerView;
     private List<AuctionProduct> mAuctionProducts = new ArrayList<>();
     private  AuctionProductAdapter adapter;
-    private TextView flash_deals_text;
+    private TextView flash_deals_text,marketViewAll,shopsViewAll,categoriesViewAll;
     private CountdownView mCvCountdownView;
 
     @Nullable
@@ -95,12 +96,17 @@ public class HomeFragment extends Fragment implements HomeView, MarketsClickList
 
         //imageSliderShadow = v.findViewById(R.id.imageSliderShadow);
         //gridIndicator = v.findViewById(R.id.anyViewIndicator);
+        marketViewAll = v.findViewById(R.id.marketView);
+        shopsViewAll = v.findViewById(R.id.shopsView);
+        categoriesViewAll = v.findViewById(R.id.categoriesView);
         auction_product_section = v.findViewById(R.id.auction_product_section);
         todays_deal_section = v.findViewById(R.id.todays_deal_section);
         flash_deal_section = v.findViewById(R.id.flash_deal_section);
         flash_deals_text = v.findViewById(R.id.flash_deals_text);
         mCvCountdownView = (CountdownView) v.findViewById(R.id.countdown);
-
+        marketViewAll.setOnClickListener(this);
+        shopsViewAll.setOnClickListener(this);
+        categoriesViewAll.setOnClickListener(this);
         auction_product_section.setVisibility(View.GONE);
         todays_deal_section.setVisibility(View.GONE);
         flash_deal_section.setVisibility(View.GONE);
@@ -448,5 +454,23 @@ public class HomeFragment extends Fragment implements HomeView, MarketsClickList
         intent.putExtra("title", markets.getName());
         intent.putExtra("id", markets.getId());
         startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.marketView:loadItemsList(0,"All Markets");
+                break;
+            case R.id.categoriesView:loadItemsList(1,"All Categories");
+                break;
+            case R.id.shopsView:loadItemsList(2,"All Shops");
+                break;
+        }
+    }
+    public void loadItemsList(int id,String title){
+        Intent intent=new Intent(getActivity(), LoadItemsActivity.class);
+        intent.putExtra("loadItem",id);
+        intent.putExtra("title",title);
+        getActivity().startActivity(intent);
     }
 }

@@ -47,13 +47,17 @@
                         android:textColor="#000"
                         android:textSize="18sp" />
 
-                    <View
-                        android:layout_width="75dp"
-                        android:layout_height="3dp"
+                    <TextView
+                        android:id="@+id/marketView"
+                        android:gravity="center"
+                        android:textColor="@android:color/white"
+                        android:text="View All"
+                        android:padding="5sp"
+                        android:layout_marginRight="10sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_alignBottom="@id/featured_market_text"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="10dp"
                         android:background="@color/colorPrimary" />
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -82,14 +86,16 @@
                         android:textStyle="bold"
                         android:textColor="#000"
                         android:textSize="18sp" />
-
-                    <View
-                        android:layout_width="75dp"
-                        android:layout_height="3dp"
-                        android:layout_alignBottom="@id/featured_categories_text"
+                    <TextView
+                        android:id="@+id/categoriesView"
+                        android:gravity="center"
+                        android:textColor="@android:color/white"
+                        android:text="View All"
+                        android:padding="5sp"
+                        android:layout_marginRight="10sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="10dp"
                         android:background="@color/colorPrimary" />
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -118,14 +124,16 @@
                         android:textStyle="bold"
                         android:textColor="#000"
                         android:textSize="18sp" />
-
-                    <View
-                        android:layout_width="75dp"
-                        android:layout_height="3dp"
-                        android:layout_alignBottom="@id/featured_shops_text"
+                    <TextView
+                        android:id="@+id/shopsView"
+                        android:gravity="center"
+                        android:textColor="@android:color/white"
+                        android:text="View All"
+                        android:padding="5sp"
+                        android:layout_marginRight="10sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="10dp"
                         android:background="@color/colorPrimary" />
 
                     <androidx.recyclerview.widget.RecyclerView
