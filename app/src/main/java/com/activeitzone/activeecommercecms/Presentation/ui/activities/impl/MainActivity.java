@@ -48,12 +48,13 @@ public class MainActivity extends AppCompatActivity implements AppSettingsIntera
     final Fragment homeFragment = new HomeFragment();
     final Fragment categoriesFragment = new CategoriesFragment();
     private Fragment cartFragment = new CartFragment();
+    public int removeCart = 0;
     private Fragment accountFragment = new AccountFragment();
     private Fragment searchFragment = new ProductSearchFragment();
     final FragmentManager fm = getSupportFragmentManager();
     private Fragment active = homeFragment;
     public static BottomNavigationView navView;
-    private ImageButton cart, search,action_qr_scanner;
+    private ImageButton cart, search, action_qr_scanner;
     private TextView title;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -86,12 +87,13 @@ public class MainActivity extends AppCompatActivity implements AppSettingsIntera
             return true;
         }
     };
+
     private void checkForPermissions() {
         Permissions.check(this/*context*/, permissions, null/*rationale*/, null/*options*/, new PermissionHandler() {
             @Override
             public void onGranted() {
                 // do your task.
-                Intent  intent = new Intent(getApplication(), ScannerActivity.class);
+                Intent intent = new Intent(getApplication(), ScannerActivity.class);
                 startActivity(intent);
             }
 
@@ -103,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements AppSettingsIntera
         });
 
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements AppSettingsIntera
         getSupportActionBar().setCustomView(R.layout.custom_action_bar_layout);
         getSupportActionBar().setElevation(0);
 
-        View view =getSupportActionBar().getCustomView();
+        View view = getSupportActionBar().getCustomView();
 
         action_qr_scanner = view.findViewById(R.id.action_qr_scanner);
         cart = view.findViewById(R.id.action_bar_cart);
@@ -164,31 +167,28 @@ public class MainActivity extends AppCompatActivity implements AppSettingsIntera
 
     private boolean loadFragment(Fragment fragment) {
         if (fragment != null) {
-            if (fragment != homeFragment){
+            if (fragment != homeFragment) {
                 action_qr_scanner.setVisibility(View.GONE);
                 cart.setVisibility(View.GONE);
                 search.setVisibility(View.GONE);
-            }
-            else {
+            } else {
                 action_qr_scanner.setVisibility(View.VISIBLE);
                 cart.setVisibility(View.VISIBLE);
                 search.setVisibility(View.VISIBLE);
             }
-            if(fragment == cartFragment){
+            if (fragment == cartFragment) {
                 cartFragment = new CartFragment();
                 fm.beginTransaction().remove(fragment).commitAllowingStateLoss();
                 fm.beginTransaction().add(R.id.fragment_container, cartFragment, "cart").hide(cartFragment).commitAllowingStateLoss();
                 fm.beginTransaction().hide(active).show(cartFragment).commitAllowingStateLoss();
                 active = cartFragment;
-            }
-            else if (fragment == accountFragment){
+            } else if (fragment == accountFragment) {
                 accountFragment = new AccountFragment();
                 fm.beginTransaction().remove(fragment).commitAllowingStateLoss();
                 fm.beginTransaction().add(R.id.fragment_container, accountFragment, "account").hide(accountFragment).commitAllowingStateLoss();
                 fm.beginTransaction().hide(active).show(accountFragment).commitAllowingStateLoss();
                 active = accountFragment;
-            }
-            else{
+            } else {
                 fm.beginTransaction().hide(active).show(fragment).commit();
                 active = fragment;
             }
@@ -206,19 +206,19 @@ public class MainActivity extends AppCompatActivity implements AppSettingsIntera
     @Override
     protected void onResume() {
         super.onResume();
-        if (getIntent().getExtras() != null){
+        if (getIntent().getExtras() != null) {
             String message = getIntent().getStringExtra("message");
             String position = getIntent().getStringExtra("position");
+            removeCart = getIntent().getIntExtra("removeCart", 0);
 
             CustomToast.showToast(this, message, R.color.colorSuccess);
             getIntent().removeExtra("message");
             getIntent().removeExtra("position");
 
-            if(position.equals("cart")){
+            if (position.equals("cart")) {
                 loadFragment(cartFragment);
                 navView.setSelectedItemId(R.id.navigation_cart);
-            }
-            else if (position.equals("account")){
+            } else if (position.equals("account")) {
                 loadFragment(accountFragment);
                 navView.setSelectedItemId(R.id.navigation_account);
             }
@@ -227,10 +227,9 @@ public class MainActivity extends AppCompatActivity implements AppSettingsIntera
 
     @Override
     public void onBackPressed() {
-        if (active == homeFragment){
+        if (active == homeFragment) {
             super.onBackPressed();
-        }
-        else {
+        } else {
             loadFragment(homeFragment);
             navView.setSelectedItemId(R.id.navigation_home);
         }

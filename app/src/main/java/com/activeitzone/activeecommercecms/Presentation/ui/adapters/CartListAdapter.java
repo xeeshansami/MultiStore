@@ -92,7 +92,6 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
             variant.setText(product.getVariation());
             shipping_cost.setText("Shipping Cost - "+AppConfig.convertPrice(context, product.getShippingCost()));
             quantity.setText(product.getQuantity().toString());
-
             if(Integer.parseInt(quantity.getText().toString()) <= 1){
                 qtyDecrease.setEnabled(false);
             }

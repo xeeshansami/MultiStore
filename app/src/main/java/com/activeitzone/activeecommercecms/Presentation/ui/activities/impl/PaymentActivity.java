@@ -259,6 +259,7 @@ public class PaymentActivity extends BaseActivity implements PaymentSelectListen
                 Intent intent = new Intent(PaymentActivity.this, MainActivity.class);
                 intent.putExtra("message", message);
                 intent.putExtra("position", "cart");
+                intent.putExtra("removeCart", 1);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
                         Intent.FLAG_ACTIVITY_CLEAR_TASK |
                         Intent.FLAG_ACTIVITY_NEW_TASK);

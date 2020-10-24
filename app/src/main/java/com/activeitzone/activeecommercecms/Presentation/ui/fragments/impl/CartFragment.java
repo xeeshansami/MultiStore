@@ -21,6 +21,7 @@ import com.activeitzone.activeecommercecms.Network.response.AuthResponse;
 import com.activeitzone.activeecommercecms.Network.response.CartQuantityUpdateResponse;
 import com.activeitzone.activeecommercecms.Network.response.RemoveCartResponse;
 import com.activeitzone.activeecommercecms.Presentation.presenters.CartPresenter;
+import com.activeitzone.activeecommercecms.Presentation.ui.activities.impl.MainActivity;
 import com.activeitzone.activeecommercecms.Presentation.ui.activities.impl.ShippingActivity;
 import com.activeitzone.activeecommercecms.Presentation.ui.adapters.CartListAdapter;
 import com.activeitzone.activeecommercecms.Presentation.ui.fragments.CartView;
@@ -62,14 +63,16 @@ public class CartFragment extends Fragment implements CartView, CartItemListener
         total_amount = v.findViewById(R.id.total_amount);
         cart_empty_text = v.findViewById(R.id.cart_empty_text);
         linearLayout.setVisibility(View.GONE);
-        cartPresenter = new CartPresenter(ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this,getActivity());
+        cartPresenter = new CartPresenter(ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this, getActivity());
         authResponse = new UserPrefs(getActivity()).getAuthPreferenceObjectJson("auth_response");
-        if(authResponse != null && authResponse.getUser() != null){
+        if (authResponse != null && authResponse.getUser() != null) {
             cartPresenter.getCartItems(authResponse.getUser().getId(), authResponse.getAccessToken());
             progressBar.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             cart_empty_text.setVisibility(View.VISIBLE);
+        }
+        if (((MainActivity) getActivity()).removeCart == 1) {
+            removeCartManually();
         }
         btnCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,44 +87,56 @@ public class CartFragment extends Fragment implements CartView, CartItemListener
         return v;
     }
 
-    private void updateCartBadge(List<CartModel> cartItems){
-        if (cartItems.size() > 0){
+    private void updateCartBadge(List<CartModel> cartItems) {
+        if (cartItems.size() > 0) {
             linearLayout.setVisibility(View.VISIBLE);
             total = 0;
             qty = 0;
-
-            for (CartModel cartModel: cartItems){
-                total += (cartModel.getPrice()+cartModel.getTax()+cartModel.getShippingCost())*cartModel.getQuantity();
-                shipping = cartModel.getShippingCost()*cartModel.getQuantity();
-                tax = cartModel.getTax()+cartModel.getQuantity();
+            for (CartModel cartModel : cartItems) {
+                total += (cartModel.getPrice() + cartModel.getTax() + cartModel.getShippingCost()) * cartModel.getQuantity();
+                shipping = cartModel.getShippingCost() * cartModel.getQuantity();
+                tax = cartModel.getTax() + cartModel.getQuantity();
                 qty += cartModel.getQuantity();
             }
             total_amount.setText(AppConfig.convertPrice(getContext(), total));
-            BottomNavigationMenuView bottomNavigationMenuView =
-                    (BottomNavigationMenuView) navView.getChildAt(0);
+            BottomNavigationMenuView bottomNavigationMenuView = (BottomNavigationMenuView) navView.getChildAt(0);
             View v = bottomNavigationMenuView.getChildAt(3); // number of menu from left
-            new QBadgeView(getActivity()).bindTarget(v).setBadgeText(String.valueOf(qty)).setShowShadow(false);
+            if (((MainActivity) getActivity()).removeCart == 1) {
+                new QBadgeView(getActivity()).bindTarget(v).setBadgeText(String.valueOf(0)).setShowShadow(false);
+            } else {
+                new QBadgeView(getActivity()).bindTarget(v).setBadgeText(String.valueOf(qty)).setShowShadow(false);
+            }
         }
     }
+
+    CartListAdapter adapter;
+    List<CartModel> cartItems;
+    RecyclerView recyclerView;
 
     @Override
     public void setCartItems(List<CartModel> cartItems) {
         progressBar.setVisibility(View.GONE);
-        if (cartItems.size() > 0){
-            RecyclerView recyclerView = v.findViewById(R.id.product_list);
-            LinearLayoutManager horizontalLayoutManager
-                    = new LinearLayoutManager(getActivity());
+        if (cartItems.size() > 0) {
+            this.cartItems = cartItems;
+            recyclerView = v.findViewById(R.id.product_list);
+            LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getActivity());
             recyclerView.setLayoutManager(horizontalLayoutManager);
-            CartListAdapter adapter = new CartListAdapter(getActivity(), cartItems, this);
+            adapter = new CartListAdapter(getActivity(), cartItems, this);
             recyclerView.setAdapter(adapter);
-            ItemTouchHelper itemTouchHelper = new
-                    ItemTouchHelper(new SwipeToDeleteCallback(adapter));
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(adapter));
             itemTouchHelper.attachToRecyclerView(recyclerView);
             updateCartBadge(cartItems);
-        }
-        else {
+            if (((MainActivity) getActivity()).removeCart == 1) {
+                for (int i = 0; i < cartItems.size(); i++)
+                    adapter.deleteItem(i);
+            }
+        } else {
             cart_empty_text.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void removeCartManually() {
+        cartPresenter.getCartItems(authResponse.getUser().getId(), authResponse.getAccessToken());
     }
 
     @Override
