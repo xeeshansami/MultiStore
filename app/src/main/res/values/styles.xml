@@ -10,7 +10,11 @@
         <item name= "android:textViewStyle" > @style/RobotoTextViewStyle </item>
         <item name= "android:buttonStyle" > @style/RobotoButtonStyle </item>
     </style>
-
+    <style name="NestedScrollBarStyle">
+        <item name="android:scrollbarThumbVertical">@color/colorPrimaryDark</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:fillViewport">true</item>
+    </style>
     <style name= "RobotoTextViewStyle" parent= "android:Widget.TextView" >
 <!--        <item name= "android:fontFamily" > source-sans-pro </item>-->
     </style>
